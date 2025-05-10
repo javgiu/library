@@ -1,0 +1,120 @@
+@font-face {
+    font-family: "Drafting Mono";
+    src: url(./assets/fonts/DraftingMono/woff2/DraftingMono-Medium.woff2) format("woff2");
+
+    font-style: normal;
+    font-weight: normal;
+}
+
+*, 
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+:root {
+    --main-beige: #FA812F;
+    --secondary-beige: #FFB22C;
+    --yellow: #F3C623;
+    --white: #FEF3E2;
+}
+
+html {
+    font-family: "Drafting Mono", monospace;
+}
+
+body {
+    background-color: var(--white);
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+h1 {
+    color: var(--white);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    background-color: var(--main-beige);
+    border: 3px solid var(--yellow);
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    transition: 0.1s ease;
+    box-shadow: 0 3px 2px 0 var(--secondary-beige);
+}
+
+.library {
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 5fr 1fr;
+}
+
+header {
+    background-color: var(--main-beige);
+    padding: 2rem;
+
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main {
+    padding: 2rem;
+    grid-column: span 2;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: minmax(200px, 50%);
+    gap: 1rem;
+}
+
+.book-card {
+    border: 1px solid var(--main-beige);
+    text-wrap: stable;
+    padding: 1rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+footer {
+    background-color: var(--main-beige);
+
+    grid-column: span 2;
+
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+#copyright-symbol {
+    font-size: 1.5rem;
+}
