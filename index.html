@@ -12,19 +12,56 @@
     <div class="library">
         <header>
             <h1>Library</h1>
-            <button class="add">New Book</button>
+            <button class="new-book">New Book</button>
         </header>
         <main>
-            <div class="book-card">
+
+            <!-- Guide -->
+
+             <!-- <div class="book-card">
                 <p class="book-title">Las Cronicas de Narnia</p>
                 <p class="book-author">Autor del libro</p>
                 <p class="book-pages">256</p>
                 <p class="book-state"><span>Readed</span></p>
-            </div>
+                <div class="buttons">
+                    <button class="delete">Delete</button>
+                    <button class="readed">Readed</button>
+                </div>
+            </div> -->
+
         </main>
         <footer>
             <p>Copyright <span id="copyright-symbol">©</span><a href="https://github.com/javgiu">j@vy</a> 2025</p>
         </footer>
+
+        <dialog>
+            <form action="">
+                <div>
+                    <label for="title">Book title: *</label>
+                    <input type="text" name="title" id="title" autofocus required>
+                </div>
+
+                <div>
+                    <label for="author">Author: *</label>
+                    <input type="text" name="author" id="author" required>
+                </div>
+
+                <div>
+                    <label for="pages">Number of pages</label>
+                    <input type="number" name="pages" id="pages" step="1">
+                </div>
+
+                <div>
+                    <label for="status">Did you read it? </label>
+                    <input type="text" name="status" id="status" value="no">
+                </div>
+
+                <div>
+                    <button class="close-dialog" formmethod="dialog">Close</button>
+                    <button class="add">Add</button>
+                </div>
+            </form>
+        </dialog>
     </div>
     
 </body>

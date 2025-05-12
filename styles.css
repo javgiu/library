@@ -33,6 +33,7 @@ body {
     background-color: var(--white);
     height: 100vh;
     background-color: whitesmoke;
+    position: relative;
 }
 
 h1 {
@@ -50,16 +51,20 @@ a:hover {
 
 button {
     padding: 0.5rem 1rem;
-    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+button.new-book {
+        font-size: 1rem;
     font-weight: 700;
     color: var(--white);
     background-color: var(--main-beige);
     border: 3px solid var(--yellow);
     border-radius: 50px;
-    cursor: pointer;
 }
 
-button:hover {
+button.new-book:hover {
     transform: translateY(-3px);
     transition: 0.1s ease;
     box-shadow: 0 3px 2px 0 var(--secondary-beige);
@@ -104,6 +109,19 @@ main {
     justify-content: space-evenly;
 }
 
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.buttons > button {
+    width: 90px;
+    padding-inline: 0.5rem;
+    
+}
+
+
 footer {
     background-color: var(--main-beige);
 
@@ -117,4 +135,28 @@ footer {
 
 #copyright-symbol {
     font-size: 1.5rem;
+}
+
+dialog {
+    width: 50%;
+    height: 50%;
+    border: none;
+    border-radius: 30px;
+    padding: 2rem;
+    box-shadow: 5px 5px 4px 0 var(--main-beige);
+    align-self: center;    
+    justify-self: center;
+}
+
+dialog::backdrop {
+    background-color: rgb(0 0 0 / 70%);
+}
+
+form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
 }
