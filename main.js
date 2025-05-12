@@ -1,10 +1,5 @@
-const book1 = new Book("Narnia Chronicles I", "C.S Lewis", crypto.randomUUID(), true, 198);
-const book2 = new Book("Narnia Chronicles II", "C.S Lewis", crypto.randomUUID(), true, 200);
-const book3 = new Book("Narnia Chronicles III", "C.S Lewis", crypto.randomUUID(), true, 153);
-
 // Dialog element 
 const dialogElement = document.querySelector("dialog");
-
 // Make the dialog easy to close  //
 // dialogElement.closedBy = "any";
 
@@ -14,26 +9,87 @@ const closeDialogButton = document.querySelector(".close-dialog");
 // Add dialog button 
 const addDialogButton = document.querySelector(".add");
 
-const myLibrary = [book1, book2, book3];
+// Main div
+const mainSection = document.querySelector("main");
 
-function Book (title, author, id, read, pages) {
+// New book button in the header
+const newBookButton = document.querySelector(".new-book");
+
+// Book constructor
+function Book (title, author, id, status, pages) {
+    if (!new.target) {
+        throw Error("You must use the 'new' operator to call the constructor");
+    }
     this.title = title;
     this.author = author;
     this.id = id;
-    this.read = read;
+    this.status = status;
     this.pages = pages;
-}
+};
 
-const newBookButton = document.querySelector(".new-book");
+// My predetermined books
+const book1 = new Book("Narnia Chronicles I", "C.S Lewis", crypto.randomUUID(), true, 198);
+const book2 = new Book("Narnia Chronicles II", "C.S Lewis", crypto.randomUUID(), false, 200);
+const book3 = new Book("Narnia Chronicles III", "C.S Lewis", crypto.randomUUID(), true, 153);
 
+// Array to store My Books
+const myLibrary = [book1, book2, book3];
+
+// Function to change status
+Book.prototype.changeStatus = function() {
+    if (this.status)
+        this.status = false;
+    else 
+        this.status = true;
+};
+
+// Display book call for predetermined books
+myLibrary.forEach(displayBook);
+
+// Shows dialog with the form
 newBookButton.addEventListener("click", () => {
     dialogElement.showModal();
 });
 
-const mainSection = document.querySelector("main");
+// Delete book listener
+mainSection.addEventListener("click", deleteBook);
 
-myLibrary.forEach(displayBook);
+// Close dialog button listener
+closeDialogButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialogElement.close();
+});
 
+// Add dialog button listener
+addDialogButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    addBook();
+    dialogElement.close();
+});
+
+// Change book status in the display listener
+mainSection.addEventListener("click", changeBookStatus);
+
+// Change book status in the display function
+function changeBookStatus(e) {
+        if (e.target.className === "change-status-button") {
+
+        const div = e.target.parentNode.parentNode;
+        const bookToChangeIndex = myLibrary.findIndex(book => book.id === div.dataset.id);
+
+        myLibrary[bookToChangeIndex].changeStatus();
+
+        if(myLibrary[bookToChangeIndex].status === true ) {
+            div.querySelector(".book-status").innerText = "Readed";
+            e.target.innerText = "Unreaded";
+        } else {
+            div.querySelector(".book-status").innerText = "Unreaded";
+            e.target.innerText = "Readed";
+        }
+    }
+};
+
+// Display book function
 function displayBook (book) {
     const bookCard = document.createElement("div");
     bookCard.className = "book-card";
@@ -51,30 +107,32 @@ function displayBook (book) {
     bookPages.innerText = book.pages;
     bookCard.appendChild(bookPages);
 
-    const bookState = document.createElement("p");
-    const bookSpanState = document.createElement("span");
-    if(book.read) {
-        bookSpanState.innerText = "Readed";
+    const bookStatus = document.createElement("p");
+    bookStatus.className = "book-status";
+    const bookSpanStatus = document.createElement("span");
+    if(book.status) {
+        bookSpanStatus.innerText = "Readed";
     } else {
-        bookSpanState.innerText = "Unreaded";
+        bookSpanStatus.innerText = "Unreaded";
     }
-    bookState.appendChild(bookSpanState);
-    bookCard.appendChild(bookState);
+    bookStatus.appendChild(bookSpanStatus);
+    bookCard.appendChild(bookStatus);
 
     const bookButtonsDiv = document.createElement("div");
     const bookButtonDelete = document.createElement("button"); 
-    const bookButtonRead = document.createElement("button");
+    const bookStatusButton = document.createElement("button");
 
     bookButtonsDiv.className = "buttons"
 
     bookButtonDelete.innerText = "Delete";
     bookButtonDelete.className = "delete";
 
-    bookButtonRead.innerText = bookSpanState.innerText;
-    bookButtonRead.className = "readed";
+    bookStatusButton.innerText = 
+        book.status === true ? "Unreaded" : "Readed";
+    bookStatusButton.className = "change-status-button";
     
     bookButtonsDiv.appendChild(bookButtonDelete);
-    bookButtonsDiv.appendChild(bookButtonRead);
+    bookButtonsDiv.appendChild(bookStatusButton);
     
 
     bookCard.appendChild(bookButtonsDiv);
@@ -83,27 +141,17 @@ function displayBook (book) {
     mainSection.appendChild(bookCard);
 };
 
-closeDialogButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    dialogElement.close();
-});
-
-addDialogButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    addBook();
-    dialogElement.close();
-});
-
+// Add book function
 function addBook() {
 
     const title = document.querySelector("#title").value; 
     const author = document.querySelector("#author").value; 
     const id = crypto.randomUUID();
-    const read = 
+    const status = 
         document.querySelector("#status").value == "yes" ? true : false;
     const pages = document.querySelector("#pages").value;
 
-    const newBook = new Book(title, author, id, read, pages);
+    const newBook = new Book(title, author, id, status, pages);
 
     displayBook(newBook);
 
@@ -114,8 +162,7 @@ function addBook() {
     console.dir(dialogElement);
 }
 
-mainSection.addEventListener("click", deleteBook);
-
+// Delete book function
 function deleteBook(e) {
     if (e.target.className === "delete") {
 
@@ -129,5 +176,4 @@ function deleteBook(e) {
 
         mainSection.removeChild(divToDelete);
     }
-
 }
